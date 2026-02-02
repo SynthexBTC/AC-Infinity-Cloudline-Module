@@ -8,4 +8,6 @@ A small card that allows you to connect an "AC Infinity Cloudline" Duct Fan dire
 - USB-A connector (or USB-C option) for using any cable
 - Open-source firmware with Home Assistant ESPHome YAML configuration file !
 
-<img src="images/Cloudline Module - Mount1.jpg" alt="APW3 Module" width="500">
+<img src="images/Cloudline Module - Mount1.jpg" alt="APW3 Module" width="700">
+
+<img src="images/Cloudline Module - PCBs.jpg" alt="APW3 Module" width="500">
