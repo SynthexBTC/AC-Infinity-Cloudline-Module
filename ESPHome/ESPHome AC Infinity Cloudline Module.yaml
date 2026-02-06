@@ -1,0 +1,78 @@
+
+output:
+  # AC Infinity Cloudline PWM
+  - platform: ledc
+    id: pwm_fan
+    pin: GPIO4
+    frequency: "1000 Hz"
+    min_power: 0%
+    max_power: 100%
+
+  # Control Board Simulate 4 FAN RPM
+  - platform: ledc
+    id: rpm_ctrlboard_output
+    pin: GPIO1
+
+sensor:
+  # Control Board PWM Voltage
+  - platform: adc
+    pin: GPIO0
+    name: "PWM Voltage CtrlBoard"
+    id: pwm_voltage_ctrlboard
+    update_interval: 500ms
+    attenuation: auto
+    filters:
+      - multiply: 1
+
+  # Control Board PWM Pourcentage
+  - platform: template
+    name: "PWM CtrlBoard"
+    id: pwm_ctrlboard
+    update_interval: 500ms
+    unit_of_measurement: "%"
+    lambda: |-
+      float v = id(pwm_voltage_ctrlboard).state;
+      if (v > 1.9) return (100);
+      return (int((52*v)));
+    on_value:
+      then:
+      # Direct Simulate 4 FAN for Control Board
+      - output.ledc.set_frequency:
+          id: rpm_ctrlboard_output
+          frequency: !lambda "return (int(id(pwm_voltage_ctrlboard).state*3800/30));"
+      - output.set_level:
+          id: rpm_ctrlboard_output
+          level: "20%"
+
+  # AC Infinity Cloudline RPM
+  - platform: pulse_counter
+    name: "RPM"
+    id: rpm
+    pin:
+      number: GPIO3
+      mode:
+        input: true
+        pullup: true
+    unit_of_measurement: 'RPM'
+    accuracy_decimals: 0
+    filters:
+      - multiply: 0.5
+      - clamp:
+          max_value: 10000
+      - median:
+          window_size: 7
+          send_every: 2
+          send_first_at: 2
+    update_interval: 2s
+    count_mode:
+      rising_edge: INCREMENT
+      falling_edge: DISABLE
+
+light:
+  # ESP32C3 Plus on-board WS2812 LED
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    pin: GPIO8
+    num_leds: 1
+    chipset: ws2812
+    name: "LED"
