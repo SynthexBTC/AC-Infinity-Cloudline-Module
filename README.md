@@ -7,7 +7,11 @@ A small card that allows you to connect an "AC Infinity Cloudline" Duct Fan dire
 - Set a minimum speed if the fan is cooling the ASIC's power supply
 - USB-A connector (or USB-C option) for using any cable
 - Open-source firmware with Home Assistant ESPHome YAML configuration file !
+- External WiFi antenna to extend beyond the metal cover
 
-<img src="images/Cloudline Module - Mount1.jpg" alt="APW3 Module" width="700">
+<img src="images/Cloudline Module - CloseView21.jpg" width="700">
+<img src="images/Cloudline Module - CloseView22.jpg" width="700">
+<img src="images/Cloudline Module - CloseView23.jpg" width="500">
 
-<img src="images/Cloudline Module - PCBs.jpg" alt="APW3 Module" width="500">
+<img src="images/Cloudline Module - Mount1.jpg" width="700">
+
